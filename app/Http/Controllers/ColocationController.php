@@ -17,7 +17,7 @@ class ColocationController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        // Bloquer si user a deja une colocation 
+        // bloquer si user a deja une colocation 
         if (auth()->user()->activeMembership) {
             return back()->withErrors(['name' => 'Vous avez déjà une colocation active.']);
         }
