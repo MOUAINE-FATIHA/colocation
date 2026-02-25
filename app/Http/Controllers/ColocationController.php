@@ -45,7 +45,7 @@ class ColocationController extends Controller
             ->first();
 
         if (!$membership) {
-            abort(403, 'Vous n\'êtes pas membre de cette colocation.');
+            abort(403, 'Vous n\'etes pas membre de cette colocation.');
         }
 
         $members = $colocation->activeMembers()->with('user')->get();
@@ -63,7 +63,7 @@ class ColocationController extends Controller
             abort(403, 'Seul le propriétaire peut annuler la colocation.');
         }
 
-        $colocation->update(['status' => 'cancelled']);
+        $colocation->update(['status'=> 'cancelled']);
         $colocation->activeMembers()->update(['left_at' => now()]);
 
         return redirect()->route('dashboard')
