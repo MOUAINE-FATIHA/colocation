@@ -23,15 +23,15 @@ class ColocationController extends Controller
         }
 
         $colocation = Colocation::create([
-            'name'   => $request->name,
+            'name'=> $request->name,
             'status' => 'active',
         ]);
 
         Membership::create([
-            'user_id'       => auth()->id(),
+            'user_id' => auth()->id(),
             'colocation_id' => $colocation->id,
-            'role'          => 'owner',
-            'joined_at'     => now(),
+            'role' => 'owner',
+            'joined_at' => now(),
         ]);
 
         return redirect()->route('colocations.show', $colocation)
