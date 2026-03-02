@@ -3,13 +3,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if(session('success'))
-                <div class="bg-green-50 text-green-700 p-4 rounded-xl">✅ {{ session('success') }}</div>
+                <div class="bg-green-50 text-green-700 p-4 rounded-xl">{{ session('success') }}</div>
             @endif
             @if($errors->any())
                 <div class="bg-red-50 text-red-600 p-4 rounded-xl">{{ $errors->first() }}</div>
             @endif
 
-            <h2 class="text-2xl font-bold text-gray-800">⚙️ Dashboard Admin</h2>
+            <h2 class="text-2xl font-bold text-gray-800">Dashboard Admin</h2>
 
             <!-- Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -31,9 +31,8 @@
                 </div>
             </div>
 
-            <!-- Utilisateurs -->
             <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-bold text-gray-700 text-lg mb-4">👥 Utilisateurs</h3>
+                <h3 class="font-bold text-gray-700 text-lg mb-4"> Utilisateurs</h3>
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="text-left text-gray-400 text-xs uppercase tracking-wide border-b">
