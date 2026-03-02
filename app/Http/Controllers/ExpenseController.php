@@ -14,10 +14,7 @@ class ExpenseController extends Controller
         $this->authorizeMember($colocation);
 
         $categories = $colocation->categories;
-
         $query = $colocation->expenses()->with('payer', 'category');
-
-        // Filtre par mois
         if ($request->filled('month')) {
             $query->whereMonth('date', date('m', strtotime($request->month)))
                   ->whereYear('date', date('Y', strtotime($request->month)));
@@ -55,8 +52,8 @@ class ExpenseController extends Controller
             'paid_by'       => $request->paid_by,
             'category_id'   => $request->category_id,
             'title'    => $request->title,
-            'amount'        => $request->amount,
-            'date'          => $request->date,
+            'amount' => $request->amount,
+            'date' => $request->date,
         ]);
 
         return redirect()->route('expenses.index', $colocation)
