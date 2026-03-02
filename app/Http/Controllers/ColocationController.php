@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Colocation;
 use App\Models\Membership;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ColocationController extends Controller
 {
@@ -62,8 +63,11 @@ class ColocationController extends Controller
         if (!$membership) {
             abort(403, 'Seul le propriétaire peut annuler la colocation.');
         }
+        $colocation->activeMembers()->with('user')->get()->each(function ($m) use ($colocation) {
+            $this->adjustReputation($m->user, $colocation);
+        });
 
-        $colocation->update(['status'=> 'cancelled']);
+        $colocation->update(['status' => 'cancelled']);
         $colocation->activeMembers()->update(['left_at' => now()]);
 
         return redirect()->route('dashboard')
@@ -79,11 +83,56 @@ class ColocationController extends Controller
         if (!$membership) {
             abort(403);
         }
+
         if ($membership->role === 'owner') {
             return back()->withErrors(['error' => 'Le propriétaire ne peut pas quitter la colocation. Annulez-la à la place.']);
         }
+        $this->adjustReputation(auth()->user(), $colocation);
+
         $membership->update(['left_at' => now()]);
+
         return redirect()->route('dashboard')
             ->with('success', 'Vous avez quitté la colocation.');
+    }
+
+    // retirer un membre
+    public function removeMember(Colocation $colocation, User $user)
+    {
+        $ownerMembership = $colocation->activeMembers()
+            ->where('user_id', auth()->id())
+            ->where('role', 'owner')
+            ->first();
+
+        if (!$ownerMembership) {
+            abort(403, 'Seul le propriétaire peut retirer un membre.');
+        }
+        $memberMembership = $colocation->activeMembers()
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$memberMembership || $memberMembership->role === 'owner') {
+            abort(403, 'Impossible de retirer ce membre.');
+        }
+        $this->adjustReputation($user, $colocation);
+        $memberMembership->update(['left_at' => now()]);
+        return back()->with('success', $user->name . ' a été retiré de la colocation.');
+    }
+
+    private function adjustReputation(User $user, Colocation $colocation): void
+    {
+        $expenses= $colocation->expenses;
+        $memberCount  = $colocation->activeMembers()->count();
+        if ($memberCount=== 0) return;
+
+        $totalExpenses  = $expenses->sum('amount');
+        $sharePerPerson = $totalExpenses / $memberCount;
+        $paid = $expenses->where('paid_by', $user->id)->sum('amount');
+        $balance  = $paid - $sharePerPerson;
+
+        if ($balance < 0) {
+            $user->decrement('reputation');
+        } else {
+            $user->increment('reputation');
+        }
     }
 }

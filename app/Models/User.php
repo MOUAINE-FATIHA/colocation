@@ -38,22 +38,22 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
         'is_banned' => 'boolean',
     ];
-}
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    // Relations
-public function memberships() {
-    return $this->hasMany(Membership::class);
-}
+    }
+        /**
+         * Get the attributes that should be cast.
+         *
+         * @return array<string, string>
+         */
+        // Relations
+    public function memberships() {
+        return $this->hasMany(Membership::class);
+    }
 
-public function activeMembership() {
-    return $this->hasOne(Membership::class)->whereNull('left_at');
-}
+    public function activeMembership() {
+        return $this->hasOne(Membership::class)->whereNull('left_at');
+    }
 
-public function expenses() {
-    return $this->hasMany(Expense::class, 'paid_by');
-}
+    public function expenses() {
+        return $this->hasMany(Expense::class, 'paid_by');
+    }
 }
