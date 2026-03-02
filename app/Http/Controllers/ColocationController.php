@@ -11,13 +11,14 @@ class ColocationController extends Controller
     public function create()
     {
         return view('colocations.create');
+
     }
+    
     public function store(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-
         // bloquer si user a deja une colocation 
         if (auth()->user()->activeMembership) {
             return back()->withErrors(['name' => 'Vous avez déjà une colocation active.']);
