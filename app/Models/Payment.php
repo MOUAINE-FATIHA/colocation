@@ -15,6 +15,7 @@ class Payment extends Model
         'paid_at',
     ];
 
+    
     protected function casts(): array
     {
         return [
