@@ -13,7 +13,7 @@ class ColocationController extends Controller
         return view('colocations.create');
 
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -96,6 +96,7 @@ class ColocationController extends Controller
             ->with('success', 'Vous avez quitté la colocation.');
     }
 
+    
     // retirer un membre
     public function removeMember(Colocation $colocation, User $user)
     {
