@@ -54,7 +54,7 @@ class ExpenseController extends Controller
             'colocation_id' => $colocation->id,
             'paid_by'       => $request->paid_by,
             'category_id'   => $request->category_id,
-            'title'         => $request->title,
+            'title'    => $request->title,
             'amount'        => $request->amount,
             'date'          => $request->date,
         ]);
@@ -63,7 +63,6 @@ class ExpenseController extends Controller
             ->with('success', 'Dépense ajoutée.');
     }
 
-    // Supprimer une dépense
     public function destroy(Colocation $colocation, Expense $expense)
     {
         $this->authorizeMember($colocation);
