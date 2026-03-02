@@ -3,10 +3,10 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if(session('success'))
-                <div class="bg-green-50 text-green-700 p-4 rounded-xl">✅ {{ session('success') }}</div>
+                <div class="bg-green-50 text-green-700 p-4 rounded-xl">{{ session('success') }}</div>
             @endif
 
-            <h2 class="text-2xl font-bold text-gray-800">⚖️ Balances — {{ $colocation->name }}</h2>
+            <h2 class="text-2xl font-bold text-gray-800">Balances — {{ $colocation->name }}</h2>
 
             <!-- Soldes -->
             <div class="bg-white rounded-2xl shadow p-6">
@@ -44,7 +44,7 @@
             <div class="bg-white rounded-2xl shadow p-6">
                 <h3 class="font-bold text-gray-700 mb-4">Qui doit à qui ?</h3>
                 @if(empty($settlements))
-                    <p class="text-center text-green-500 font-medium py-4">🎉 Tout le monde est quitte !</p>
+                    <p class="text-center text-green-500 font-medium py-4">Tout le monde est quitte !</p>
                 @else
                     <ul class="space-y-3">
                         @foreach($settlements as $s)
@@ -82,7 +82,7 @@
                 </a>
                 <a href="{{ route('payments.index', $colocation) }}"
                     class="px-4 py-2 bg-gray-700 text-white rounded-xl hover:bg-gray-800 transition text-sm">
-                    📋 Historique paiements
+                    Historique paiements
                 </a>
             </div>
 
