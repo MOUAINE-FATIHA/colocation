@@ -11,7 +11,7 @@ class Expense extends Model
 
     protected $fillable = [
         'colocation_id',
-        'paid_by',       // user_id du payeur
+        'paid_by',       
         'category_id',
         'title',
         'amount',
@@ -24,8 +24,6 @@ class Expense extends Model
             'amount' => 'decimal:2',
         ];
     }
-
-    // Relations
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
