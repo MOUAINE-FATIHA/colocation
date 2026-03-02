@@ -41,8 +41,6 @@ class BalanceController extends Controller
                 'balance' => 0,
             ];
         }
-
-        // Calculer ce que chacun a payé
         $totalExpenses  = $expenses->sum('amount');
         $sharePerPerson = $totalMembers > 0 ? $totalExpenses / $totalMembers : 0;
 
@@ -51,8 +49,6 @@ class BalanceController extends Controller
                 $balances[$expense->paid_by]['paid'] += $expense->amount;
             }
         }
-
-        // Intégrer les paiements (ajustement des balances)
         foreach ($payments as $payment) {
             if (isset($balances[$payment->from_user_id])) {
                 $balances[$payment->from_user_id]['paid'] += $payment->amount;
@@ -62,7 +58,6 @@ class BalanceController extends Controller
             }
         }
 
-        // Calculer le solde final
         foreach ($balances as $userId => &$data) {
             $data['share']   = $sharePerPerson;
             $data['balance'] = $data['paid'] - $sharePerPerson;
