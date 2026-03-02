@@ -11,7 +11,6 @@ protected $fillable = ['name', 'status'];
 public function memberships() {
     return $this->hasMany(Membership::class);
 }
-
 public function activeMembers() {
     return $this->hasMany(Membership::class)->whereNull('left_at');
 }
