@@ -16,7 +16,6 @@ class Invitation extends Model
         'status', 
     ];
 
-    // Relations
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
