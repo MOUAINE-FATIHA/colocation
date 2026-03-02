@@ -69,7 +69,7 @@ class BalanceController extends Controller
         return view('balances.index', compact('colocation', 'balances', 'settlements'));
     }
 
-    // Algorithme de simplification des dettes
+    // Algorithme des dettes
     private function calculateSettlements(array $balances): array
     {
         $settlements = [];
