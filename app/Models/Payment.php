@@ -9,8 +9,8 @@ class Payment extends Model
 
     protected $fillable = [
         'colocation_id',
-        'from_user_id',  //  qui rembourse
-        'to_user_id',    // qui reçoit
+        'from_user_id', 
+        'to_user_id', 
         'amount',
         'paid_at',
     ];
@@ -23,7 +23,6 @@ class Payment extends Model
         ];
     }
 
-    // Relations
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
