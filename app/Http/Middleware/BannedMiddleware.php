@@ -12,7 +12,6 @@ class BannedMiddleware
             return redirect()->route('login')
                 ->withErrors(['email' => 'malheuresement votre compte est banni.']);
         }
-
         return $next($request);
     }
 }
