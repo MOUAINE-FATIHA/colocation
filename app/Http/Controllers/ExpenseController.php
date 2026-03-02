@@ -25,13 +25,12 @@ class ExpenseController extends Controller
         return view('expenses.index', compact('colocation', 'expenses', 'categories', 'request'));
     }
 
-    // Formulaire d'ajout
-    public function create(Colocation $colocation)
-    {
+    // form d'ajout
+    public function create(Colocation $colocation){
         $this->authorizeMember($colocation);
         $categories = $colocation->categories;
-        $members    = $colocation->activeMembers()->with('user')->get();
-        return view('expenses.create', compact('colocation', 'categories', 'members'));
+        $members= $colocation->activeMembers()->with('user')->get();
+        return view('expenses.create',compact('colocation', 'categories', 'members'));
     }
 
     // Enregistrer une dépense
