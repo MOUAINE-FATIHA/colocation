@@ -14,7 +14,6 @@ public function memberships() {
 public function activeMembers() {
     return $this->hasMany(Membership::class)->whereNull('left_at');
 }
-
 public function owner() {
     return $this->hasOne(Membership::class)->where('role', 'owner')->whereNull('left_at');
 }
