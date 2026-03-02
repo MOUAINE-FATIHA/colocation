@@ -87,13 +87,13 @@
                         </a>
                         <a href="{{ route('categories.index', $colocation) }}"
                             class="px-4 py-2 bg-yellow-400 text-white rounded-xl hover:bg-yellow-500 transition text-sm">
-                            🏷️ Catégories
+                            Catégories
                         </a>
                         <form method="POST" action="{{ route('colocations.cancel', $colocation) }}"
                             onsubmit="return confirm('Annuler la colocation ?')">
                             @csrf
                             <button class="px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition text-sm">
-                                🗑️ Annuler
+                                Annuler
                             </button>
                         </form>
                     @else
@@ -101,7 +101,7 @@
                             onsubmit="return confirm('Quitter la colocation ?')">
                             @csrf
                             <button class="px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition text-sm">
-                                🚪 Quitter
+                                Quitter
                             </button>
                         </form>
                     @endif
