@@ -15,7 +15,6 @@ class Invitation extends Model
         'token',
         'status', // pending, accepted, refused
     ];
-
     // Relations
     public function colocation()
     {
