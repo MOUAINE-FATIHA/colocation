@@ -14,7 +14,7 @@ class Category extends Model
         'colocation_id',
     ];
 
-    // Relations
+
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
