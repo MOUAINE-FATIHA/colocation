@@ -22,19 +22,18 @@ class PaymentController extends Controller
 
         $request->validate([
             'to_user_id' => ['required', 'exists:users,id'],
-            'amount'     => ['required', 'numeric', 'min:0.01'],
+            'amount'=> ['required', 'numeric', 'min:0.01'],
         ]);
 
         Payment::create([
             'colocation_id' => $colocation->id,
             'from_user_id'  => auth()->id(),
-            'to_user_id'    => $request->to_user_id,
-            'amount'        => $request->amount,
-            'paid_at'       => now(),
+            'to_user_id' => $request->to_user_id,
+            'amount' => $request->amount,
+            'paid_at' => now(),
         ]);
 
-        return redirect()->route('balances.index', $colocation)
-            ->with('success', 'Paiement enregistré avec succès !');
+        return redirect()->route('colocations.show', $colocation)->with('success', 'Paiement enregistré avec succès !');
     }
 
     // Historique des paiements

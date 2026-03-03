@@ -108,4 +108,5 @@ class BalanceController extends Controller
 
         return $settlements;
     }
+    
 }

@@ -54,16 +54,14 @@ class ExpenseController extends Controller
             'amount' => $request->amount,
             'date' => $request->date,
         ]);
-
-        return redirect()->route('expenses.index', $colocation)
-            ->with('success', 'Dépense ajoutée.');
+        return redirect()->route('colocations.show', $colocation)->with('success', 'Dépense ajoutée.');
     }
 
     public function destroy(Colocation $colocation, Expense $expense)
     {
         $this->authorizeMember($colocation);
         $expense->delete();
-        return back()->with('success', 'Dépense supprimée.');
+        return redirect()->route('colocations.show', $colocation)->with('success', 'Dépense supprimée.');
     }
 
     private function authorizeMember(Colocation $colocation)

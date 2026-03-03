@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Colocation;
 use App\Models\Membership;
 use Illuminate\Http\Request;
+use App\Models\Payment;
 use App\Models\User;
 
 class ColocationController extends Controller
@@ -40,18 +41,81 @@ class ColocationController extends Controller
             ->with('success', 'Colocation créée avec succès !');
     }
 
-    public function show(Colocation $colocation)
+    public function show(Colocation $colocation, Request $request)
     {
         $membership = $colocation->activeMembers()
             ->where('user_id', auth()->id())
             ->first();
 
         if (!$membership) {
-            abort(403, 'Vous n\'etes pas membre de cette colocation.');
+            abort(403, 'Vous n\'êtes pas membre de cette colocation.');
         }
 
-        $members = $colocation->activeMembers()->with('user')->get();
-        return view('colocations.show', compact('colocation', 'members', 'membership'));
+        $members    = $colocation->activeMembers()->with('user')->get();
+        $categories = $colocation->categories;
+
+        // Dépenses avec filtre par mois
+        $query = $colocation->expenses()->with('payer', 'category');
+        if ($request->filled('month')) {
+            $query->whereMonth('date', date('m', strtotime($request->month)))
+                ->whereYear('date', date('Y', strtotime($request->month)));
+        }
+        $expenses = $query->orderBy('date', 'desc')->get();
+
+        // Balances
+        $payments     = Payment::where('colocation_id', $colocation->id)->get();
+        $totalMembers = $members->count();
+        $balances     = [];
+        $settlements  = [];
+
+        if ($totalMembers > 0) {
+            foreach ($members as $m) {
+                $balances[$m->user->id] = [
+                    'user'    => $m->user,
+                    'paid'    => 0,
+                    'share'   => 0,
+                    'balance' => 0,
+                ];
+            }
+
+            $totalExpenses  = $colocation->expenses->sum('amount');
+            $sharePerPerson = $totalExpenses / $totalMembers;
+
+            foreach ($colocation->expenses as $expense) {
+                if (isset($balances[$expense->paid_by])) {
+                    $balances[$expense->paid_by]['paid'] += $expense->amount;
+                }
+            }
+
+            foreach ($payments as $payment) {
+                if (isset($balances[$payment->from_user_id])) {
+                    $balances[$payment->from_user_id]['paid'] += $payment->amount;
+                }
+                if (isset($balances[$payment->to_user_id])) {
+                    $balances[$payment->to_user_id]['paid'] -= $payment->amount;
+                }
+            }
+
+            foreach ($balances as &$data) {
+                $data['share']   = $sharePerPerson;
+                $data['balance'] = $data['paid'] - $sharePerPerson;
+            }
+            unset($data);
+
+            $settlements = $this->calculateSettlements($balances);
+        }
+
+        // Historique paiements
+        $paymentHistory = Payment::where('colocation_id', $colocation->id)
+            ->with('fromUser', 'toUser')
+            ->orderBy('paid_at', 'desc')
+            ->get();
+
+        return view('colocations.show', compact(
+            'colocation', 'members', 'membership',
+            'categories', 'expenses', 'request',
+            'balances', 'settlements', 'paymentHistory'
+        ));
     }
 
     public function cancel(Colocation $colocation)
@@ -137,4 +201,37 @@ class ColocationController extends Controller
             $user->increment('reputation');
         }
     }
+
+    private function calculateSettlements(array $balances): array
+{
+    $settlements = [];
+    $debtors     = [];
+    $creditors   = [];
+
+    foreach ($balances as $userId => $data) {
+        $b = round($data['balance'], 2);
+        if ($b < 0) {
+            $debtors[$userId] = abs($b);
+        } elseif ($b > 0) {
+            $creditors[$userId] = $b;
+        }
+    }
+
+    foreach ($debtors as $debtorId => $debtAmount) {
+        foreach ($creditors as $creditorId => $creditAmount) {
+            if ($debtAmount <= 0 || $creditAmount <= 0) continue;
+            $amount        = min($debtAmount, $creditAmount);
+            $settlements[] = [
+                'from'   => $balances[$debtorId]['user'],
+                'to'     => $balances[$creditorId]['user'],
+                'amount' => round($amount, 2),
+            ];
+            $debtors[$debtorId]     -= $amount;
+            $creditors[$creditorId] -= $amount;
+            $debtAmount             -= $amount;
+        }
+    }
+
+    return $settlements;
+}
 }
