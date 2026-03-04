@@ -4,7 +4,7 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="text-white font-bold text-xl tracking-wide">
-                    🏠 ColocApp
+                    EasyColoc
                 </a>
 
                 <!-- Desktop Links -->
@@ -18,7 +18,7 @@
                         <a href="{{ route('admin.dashboard') }}"
                             class="text-white text-sm font-medium hover:text-orange-200 transition
                             {{ request()->routeIs('admin.*') ? 'border-b-2 border-white' : '' }}">
-                            ⚙️ Admin
+                            Admin
                         </a>
                     @endif
                 </div>
@@ -36,12 +36,12 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">👤 Profil</x-dropdown-link>
+                        <x-dropdown-link :href="route('profile.edit')">Profil</x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                🚪 Déconnexion
+                                Déconnexion
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -65,17 +65,17 @@
         <div class="pt-2 pb-3 space-y-1 px-4">
             <a href="{{ route('dashboard') }}" class="block text-white text-sm py-2 hover:text-orange-200">Dashboard</a>
             @if(auth()->user()->is_admin)
-                <a href="{{ route('admin.dashboard') }}" class="block text-white text-sm py-2 hover:text-orange-200">⚙️ Admin</a>
+                <a href="{{ route('admin.dashboard') }}" class="block text-white text-sm py-2 hover:text-orange-200">Admin</a>
             @endif
         </div>
         <div class="pt-4 pb-3 border-t border-orange-400 px-4">
             <p class="text-white font-medium">{{ Auth::user()->name }}</p>
             <p class="text-orange-200 text-sm">{{ Auth::user()->email }}</p>
             <div class="mt-3 space-y-1">
-                <a href="{{ route('profile.edit') }}" class="block text-white text-sm py-2 hover:text-orange-200">👤 Profil</a>
+                <a href="{{ route('profile.edit') }}" class="block text-white text-sm py-2 hover:text-orange-200">Profil</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block text-white text-sm py-2 hover:text-orange-200">🚪 Déconnexion</button>
+                    <button type="submit" class="block text-white text-sm py-2 hover:text-orange-200">Déconnexion</button>
                 </form>
             </div>
         </div>

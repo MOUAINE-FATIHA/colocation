@@ -63,7 +63,6 @@ class ExpenseController extends Controller
         $expense->delete();
         return redirect()->route('colocations.show', $colocation)->with('success', 'Dépense supprimée.');
     }
-
     private function authorizeMember(Colocation $colocation)
     {
         $membership = $colocation->activeMembers()
@@ -71,7 +70,7 @@ class ExpenseController extends Controller
             ->first();
 
         if (!$membership) {
-            abort(403, 'Vous n\'êtes pas membre de cette colocation.');
+            abort(403, 'Vous n\'etes pas membre de cette colocation.');
         }
     }
 }

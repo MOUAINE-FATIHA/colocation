@@ -2,11 +2,11 @@
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-lg mx-auto sm:px-6 lg:px-8">
             <div class="bg-white rounded-2xl shadow p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">✉️ Inviter un membre</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Inviter un membre</h2>
                 <p class="text-gray-400 text-sm mb-6">{{ $colocation->name }}</p>
 
                 @if(session('success'))
-                    <div class="mb-4 bg-green-50 text-green-700 text-sm p-3 rounded-xl">✅ {{ session('success') }}</div>
+                    <div class="mb-4 bg-green-50 text-green-700 text-sm p-3 rounded-xl">{{ session('success') }}</div>
                 @endif
                 @if($errors->any())
                     <div class="mb-4 bg-red-50 text-red-600 text-sm p-3 rounded-xl">{{ $errors->first() }}</div>
@@ -28,7 +28,7 @@
 
                 <a href="{{ route('colocations.show', $colocation) }}"
                     class="block text-center mt-4 text-sm text-gray-400 hover:text-orange-500">
-                    ← Retour
+                    Retour
                 </a>
             </div>
         </div>

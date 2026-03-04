@@ -27,11 +27,11 @@
                             @foreach($balances as $data)
                             <tr class="border-b last:border-0">
                                 <td class="py-3 font-medium text-gray-800">{{ $data['user']->name }}</td>
-                                <td class="py-3 text-gray-600">{{ number_format($data['paid'], 2) }} €</td>
-                                <td class="py-3 text-gray-600">{{ number_format($data['share'], 2) }} €</td>
+                                <td class="py-3 text-gray-600">{{ number_format($data['paid'], 2) }} $</td>
+                                <td class="py-3 text-gray-600">{{ number_format($data['share'], 2) }} $</td>
                                 <td class="py-3 font-bold
                                     {{ $data['balance'] > 0 ? 'text-green-500' : ($data['balance'] < 0 ? 'text-red-500' : 'text-gray-400') }}">
-                                    {{ $data['balance'] > 0 ? '+' : '' }}{{ number_format($data['balance'], 2) }} €
+                                    {{ $data['balance'] > 0 ? '+' : '' }}{{ number_format($data['balance'], 2) }} $
                                 </td>
                             </tr>
                             @endforeach
@@ -52,7 +52,7 @@
                             <span class="text-sm">
                                 <strong class="text-red-500">{{ $s['from']->name }}</strong>
                                 doit
-                                <strong class="text-gray-800">{{ number_format($s['amount'], 2) }} €</strong>
+                                <strong class="text-gray-800">{{ number_format($s['amount'], 2) }} $</strong>
                                 à
                                 <strong class="text-green-600">{{ $s['to']->name }}</strong>
                             </span>
@@ -64,7 +64,7 @@
                                     <button type="submit"
                                         class="px-3 py-1 bg-orange-500 text-white text-xs rounded-xl hover:bg-orange-600 transition"
                                         onclick="return confirm('Confirmer le paiement ?')">
-                                        Marquer payé ✓
+                                        Marquer payé
                                     </button>
                                 </form>
                             @endif
@@ -78,7 +78,7 @@
             <div class="flex justify-between items-center">
                 <a href="{{ route('colocations.show', $colocation) }}"
                     class="text-sm text-gray-400 hover:text-orange-500">
-                    ← Retour
+                    Retour
                 </a>
                 <a href="{{ route('payments.index', $colocation) }}"
                     class="px-4 py-2 bg-gray-700 text-white rounded-xl hover:bg-gray-800 transition text-sm">

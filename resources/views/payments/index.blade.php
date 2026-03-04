@@ -2,7 +2,7 @@
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <h2 class="text-2xl font-bold text-gray-800">📋 Historique des paiements — {{ $colocation->name }}</h2>
+            <h2 class="text-2xl font-bold text-gray-800">Historique des paiements — {{ $colocation->name }}</h2>
 
             <div class="bg-white rounded-2xl shadow divide-y">
                 @forelse($payments as $payment)
@@ -14,7 +14,7 @@
                                 <strong class="text-green-600">{{ $payment->toUser->name }}</strong>
                             </p>
                             <p class="text-xs text-gray-400 mt-1">
-                                📅 {{ $payment->paid_at->format('d/m/Y à H:i') }}
+                                {{ $payment->paid_at->format('d/m/Y à H:i') }}
                             </p>
                         </div>
                         <span class="font-bold text-orange-500 text-lg">
@@ -23,7 +23,7 @@
                     </div>
                 @empty
                     <div class="p-10 text-center text-gray-400">
-                        <p class="text-3xl mb-2">📭</p>
+                        <p class="text-3xl mb-2"></p>
                         <p>Aucun paiement enregistré.</p>
                     </div>
                 @endforelse
@@ -31,7 +31,7 @@
 
             <a href="{{ route('balances.index', $colocation) }}"
                 class="block text-center text-sm text-gray-400 hover:text-orange-500">
-                ← Retour aux balances
+                Retour aux balances
             </a>
 
         </div>

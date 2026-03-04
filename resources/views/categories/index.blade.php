@@ -3,11 +3,11 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if(session('success'))
-                <div class="bg-green-50 text-green-700 p-4 rounded-xl">✅ {{ session('success') }}</div>
+                <div class="bg-green-50 text-green-700 p-4 rounded-xl">{{ session('success') }}</div>
             @endif
 
             <div class="bg-white rounded-2xl shadow p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-6">🏷️ Catégories — {{ $colocation->name }}</h2>
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Catégories — {{ $colocation->name }}</h2>
 
                 <form method="POST" action="{{ route('categories.store', $colocation) }}" class="flex gap-3 mb-6">
                     @csrf
@@ -21,7 +21,7 @@
 
                 @forelse($categories as $category)
                     <div class="flex justify-between items-center border-b py-3 last:border-0">
-                        <span class="text-gray-700">🏷️ {{ $category->name }}</span>
+                        <span class="text-gray-700">{{ $category->name }}</span>
                         <form method="POST"
                             action="{{ route('categories.destroy', [$colocation, $category]) }}"
                             onsubmit="return confirm('Supprimer ?')">
